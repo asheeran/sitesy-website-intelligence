@@ -1,0 +1,27 @@
+# Smithery start configuration for the Sitesy website intelligence MCP server.
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    required:
+      - payerPrivateKey
+    properties:
+      payerPrivateKey:
+        type: string
+        description: Private key of the wallet that pays for each call. Fund it with a small amount of USDC on Base.
+      apiUrl:
+        type: string
+        default: https://api.sitesy.ca
+        description: Optional override for the API base address.
+  commandFunction: |-
+    (config) => ({
+      command: "npx",
+      args: ["-y", "@getsitesy/website-intelligence"],
+      env: {
+        PAYER_PRIVATE_KEY: config.payerPrivateKey,
+        API_URL: config.apiUrl
+      }
+    })
+  exampleConfig:
+    payerPrivateKey: "0x0000000000000000000000000000000000000000000000000000000000000000"
+    apiUrl: "https://api.sitesy.ca"
